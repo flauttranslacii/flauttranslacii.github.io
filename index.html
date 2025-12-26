@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlautЗвонки - Реальные видеозвонки</title>
+    <title>FlautЗвонки - Видеозвонки без лагов</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
         :root {
             --primary: #8a4fff;
@@ -78,12 +79,24 @@
             -webkit-text-fill-color: transparent;
         }
         
+        @media (min-width: 768px) {
+            .logo-icon {
+                font-size: 3rem;
+            }
+        }
+        
         .logo-text {
             font-size: 1.8rem;
             font-weight: 900;
             background: linear-gradient(to right, var(--secondary), var(--accent), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+        
+        @media (min-width: 768px) {
+            .logo-text {
+                font-size: 2.5rem;
+            }
         }
         
         .btn {
@@ -98,11 +111,23 @@
             justify-content: center;
             gap: 8px;
             font-size: 0.95rem;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        @media (min-width: 768px) {
+            .btn {
+                padding: 16px 32px;
+                font-size: 1.1rem;
+                width: auto;
+                margin-bottom: 0;
+            }
         }
         
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            box-shadow: 0 5px 20px rgba(138, 79, 255, 0.4);
         }
         
         .btn-primary:hover {
@@ -113,6 +138,7 @@
         .btn-secondary {
             background: rgba(255,255,255,0.1);
             color: white;
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
         }
         
@@ -133,7 +159,17 @@
         
         .nav-buttons {
             display: flex;
+            flex-direction: column;
             gap: 10px;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .nav-buttons {
+                flex-direction: row;
+                gap: 15px;
+                width: auto;
+            }
         }
         
         .hero {
@@ -146,12 +182,28 @@
             border: 2px solid rgba(138, 79, 255, 0.3);
         }
         
+        @media (min-width: 768px) {
+            .hero {
+                padding: 80px 40px;
+                border-radius: 30px;
+                margin-bottom: 60px;
+            }
+        }
+        
         .hero h1 {
             font-size: 2.2rem;
             margin-bottom: 20px;
             background: linear-gradient(to right, var(--secondary), var(--accent), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            .hero h1 {
+                font-size: 4.5rem;
+                margin-bottom: 30px;
+            }
         }
         
         .hero p {
@@ -160,6 +212,14 @@
             max-width: 100%;
             margin: 0 auto 30px;
             line-height: 1.6;
+        }
+        
+        @media (min-width: 768px) {
+            .hero p {
+                font-size: 1.4rem;
+                max-width: 800px;
+                margin-bottom: 40px;
+            }
         }
         
         .call-actions {
@@ -174,6 +234,7 @@
                 flex-direction: row;
                 justify-content: center;
                 gap: 30px;
+                margin-top: 50px;
             }
         }
         
@@ -185,13 +246,33 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
         
+        @media (min-width: 768px) {
+            .url-generator {
+                max-width: 800px;
+                padding: 30px;
+                margin: 40px auto;
+                border-radius: 20px;
+            }
+        }
+        
         .url-input {
             display: flex;
+            flex-direction: column;
+            gap: 10px;
             background: rgba(0,0,0,0.3);
             border-radius: 12px;
             padding: 15px;
             margin-top: 15px;
             border: 2px solid rgba(138, 79, 255, 0.3);
+        }
+        
+        @media (min-width: 768px) {
+            .url-input {
+                flex-direction: row;
+                padding: 10px;
+                margin-top: 20px;
+                border-radius: 15px;
+            }
         }
         
         .url-input input {
@@ -202,6 +283,14 @@
             color: white;
             font-size: 1rem;
             outline: none;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .url-input input {
+                padding: 20px;
+                font-size: 1.2rem;
+            }
         }
         
         .call-container {
@@ -209,6 +298,13 @@
             flex-direction: column;
             gap: 20px;
             height: calc(100vh - 100px);
+        }
+        
+        @media (min-width: 768px) {
+            .call-container {
+                flex-direction: row;
+                gap: 25px;
+            }
         }
         
         .video-grid {
@@ -221,11 +317,19 @@
             background: rgba(15, 11, 31, 0.6);
             border-radius: 20px;
             border: 2px solid rgba(138, 79, 255, 0.2);
+            max-height: 500px;
         }
         
         @media (min-width: 768px) {
             .video-grid {
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                max-height: none;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             }
         }
         
@@ -236,6 +340,7 @@
             overflow: hidden;
             aspect-ratio: 16/9;
             border: 2px solid transparent;
+            min-height: 200px;
         }
         
         .video-item video {
@@ -272,6 +377,15 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        @media (min-width: 768px) {
+            .user-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
         }
         
         .controls-panel {
@@ -283,12 +397,29 @@
             flex-direction: column;
             gap: 20px;
             border: 2px solid rgba(138, 79, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        @media (min-width: 768px) {
+            .controls-panel {
+                width: 350px;
+                padding: 30px;
+                border-radius: 25px;
+                gap: 25px;
+            }
         }
         
         .controls {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
+            margin-top: auto;
+        }
+        
+        @media (min-width: 768px) {
+            .controls {
+                gap: 20px;
+            }
         }
         
         .control-btn {
@@ -300,9 +431,24 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        @media (min-width: 768px) {
+            .control-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+                border-radius: 20px;
+            }
+        }
+        
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
         }
         
         .control-btn.active {
@@ -319,7 +465,18 @@
             background: rgba(0,0,0,0.3);
             border-radius: 15px;
             padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 200px;
             border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (min-width: 768px) {
+            .participants-list {
+                max-height: 300px;
+                border-radius: 20px;
+                padding: 20px;
+            }
         }
         
         .participant {
@@ -353,12 +510,22 @@
             width: 100%;
             max-width: 500px;
             border: 2px solid var(--primary);
+            box-shadow: 0 20px 60px rgba(138, 79, 255, 0.4);
+            backdrop-filter: blur(20px);
+        }
+        
+        @media (min-width: 768px) {
+            .modal-content {
+                padding: 40px;
+                border-radius: 30px;
+            }
         }
         
         .notification {
             position: fixed;
             bottom: 20px;
             right: 20px;
+            left: 20px;
             padding: 15px 20px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -368,6 +535,17 @@
             align-items: center;
             gap: 12px;
             box-shadow: 0 10px 30px rgba(138, 79, 255, 0.4);
+        }
+        
+        @media (min-width: 768px) {
+            .notification {
+                left: auto;
+                right: 30px;
+                bottom: 30px;
+                padding: 20px 30px;
+                border-radius: 15px;
+                max-width: 400px;
+            }
         }
         
         .loader {
@@ -420,6 +598,12 @@
             text-align: center;
             padding: 40px;
             color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -509,6 +693,9 @@
                     <button class="control-btn" id="inviteCallBtn" title="Пригласить">
                         <i class="fas fa-user-plus"></i>
                     </button>
+                    <button class="control-btn" id="settingsBtn" title="Настройки">
+                        <i class="fas fa-cog"></i>
+                    </button>
                     <button class="control-btn danger" id="leaveBtn" title="Выйти">
                         <i class="fas fa-phone-slash"></i>
                     </button>
@@ -585,9 +772,7 @@
     </div>
 
     <script>
-        // Signal Server - используем бесплатный сервер
-        const SIGNAL_SERVER = 'wss://signaling.free4all.chat:8999';
-        let ws = null;
+        let peer = null;
         let myStream = null;
         let myScreenStream = null;
         let currentRoom = null;
@@ -595,10 +780,7 @@
         let participants = new Map();
         let isScreenSharing = false;
         let isHost = false;
-        let userId = null;
-        let userName = null;
-        let localVideoTrack = null;
-        let localAudioTrack = null;
+        let peerId = null;
 
         const loader = document.getElementById('loader');
         const mainContainer = document.getElementById('mainContainer');
@@ -609,15 +791,15 @@
         const emptyVideoState = document.getElementById('emptyVideoState');
         const emptyParticipants = document.getElementById('emptyParticipants');
         const connectionStatus = document.getElementById('connectionStatus');
+        
+        const userId = 'user_' + Math.random().toString(36).substring(2, 12);
+        const userName = 'Участник_' + Math.floor(Math.random() * 1000);
 
         async function initApp() {
             setTimeout(() => {
                 loader.style.display = 'none';
                 mainContainer.style.display = 'block';
             }, 1000);
-
-            userId = 'user_' + Math.random().toString(36).substring(2, 12);
-            userName = 'Участник_' + Math.floor(Math.random() * 1000);
 
             checkUrlForRoom();
 
@@ -666,14 +848,14 @@
             currentRoom = roomId;
             isHost = true;
             
-            const roomUrl = `${window.location.origin}${window.location.pathname}#${roomId}`;
+            const roomUrl = `https://flauttranslacii.github.io/#${roomId}`;
             document.getElementById('roomUrl').value = roomUrl;
             document.getElementById('currentRoomId').textContent = roomId;
             document.getElementById('inviteUrl').value = roomUrl;
             window.location.hash = roomId;
             
             showNotification('Создание комнаты...');
-            await startCall(true);
+            await startPeerConnection(true);
         }
 
         async function joinRoom() {
@@ -701,10 +883,10 @@
             window.location.hash = roomId;
             
             showNotification('Подключение к комнате...');
-            await startCall(false);
+            await startPeerConnection(false);
         }
 
-        async function startCall(isCreator) {
+        async function startPeerConnection(isHostMode) {
             try {
                 myStream = await navigator.mediaDevices.getUserMedia({
                     video: {
@@ -719,232 +901,129 @@
                     }
                 });
 
-                localVideoTrack = myStream.getVideoTracks()[0];
-                localAudioTrack = myStream.getAudioTracks()[0];
-
-                connectToSignalServer();
-
-                homeScreen.style.display = 'none';
-                callScreen.style.display = 'flex';
-                
-                addVideoStream(userId, myStream, isCreator ? 'Вы (Ведущий)' : 'Вы', true);
-                addParticipant(userId, isCreator ? 'Вы (Ведущий)' : 'Вы', true, true);
-
-                if (isCreator) {
-                    showNotification('Комната создана! Приглашайте участников по ссылке.');
+                if (isHostMode) {
+                    peerId = `host_${currentRoom}`;
                 } else {
-                    showNotification('Подключение к комнате...');
-                    sendSignal('join', { room: currentRoom });
+                    peerId = `user_${userId}_${currentRoom}`;
                 }
+
+                peer = new Peer(peerId, {
+                    host: '0.peerjs.com',
+                    port: 443,
+                    path: '/',
+                    secure: true,
+                    debug: 2
+                });
+
+                peer.on('open', (id) => {
+                    console.log('Peer подключен с ID:', id);
+                    connectionStatus.style.display = 'flex';
+                    
+                    homeScreen.style.display = 'none';
+                    callScreen.style.display = 'flex';
+                    
+                    addVideoStream('local', myStream, isHostMode ? 'Вы (Ведущий)' : 'Вы', true);
+                    addParticipant(peerId, isHostMode ? 'Вы (Ведущий)' : 'Вы', true, true);
+                    
+                    if (isHostMode) {
+                        showNotification('Комната создана! Приглашайте участников по ссылке.');
+                    } else {
+                        showNotification('Подключение к комнате...');
+                        connectToHost();
+                    }
+                });
+
+                peer.on('call', async (call) => {
+                    console.log('Входящий вызов от:', call.peer);
+                    try {
+                        await call.answer(myStream);
+                        
+                        call.on('stream', (remoteStream) => {
+                            console.log('Получен поток от:', call.peer);
+                            addVideoStream(call.peer, remoteStream, `Участник_${connections.size + 1}`);
+                            addParticipant(call.peer, `Участник_${connections.size + 1}`, true, true);
+                        });
+                        
+                        call.on('close', () => {
+                            console.log('Соединение закрыто:', call.peer);
+                            removeParticipant(call.peer);
+                        });
+                        
+                        call.on('error', (err) => {
+                            console.error('Ошибка в вызове:', err);
+                        });
+                        
+                        connections.set(call.peer, call);
+                        showNotification(`Новый участник подключился!`);
+                    } catch (err) {
+                        console.error('Ошибка при ответе на вызов:', err);
+                    }
+                });
+
+                peer.on('connection', (conn) => {
+                    conn.on('data', (data) => {
+                        console.log('Получены данные:', data);
+                    });
+                });
+
+                peer.on('error', (err) => {
+                    console.error('PeerJS ошибка:', err);
+                    if (err.type === 'peer-unavailable') {
+                        showNotification('Комната не найдена или ведущий отключился');
+                    } else {
+                        showNotification('Ошибка подключения: ' + err.message);
+                    }
+                });
+
+                peer.on('disconnected', () => {
+                    console.log('Peer отключен');
+                    connectionStatus.style.display = 'none';
+                    showNotification('Соединение потеряно...');
+                });
 
             } catch (err) {
                 console.error('Ошибка при подключении:', err);
-                showNotification('Ошибка доступа к камере/микрофону');
+                if (err.name === 'NotAllowedError') {
+                    showNotification('Доступ к камере/микрофону запрещен');
+                } else if (err.name === 'NotFoundError') {
+                    showNotification('Камера или микрофон не найдены');
+                } else {
+                    showNotification('Ошибка: ' + err.message);
+                }
             }
         }
 
-        function connectToSignalServer() {
-            ws = new WebSocket(SIGNAL_SERVER);
+        async function connectToHost() {
+            const hostId = `host_${currentRoom}`;
             
-            ws.onopen = () => {
-                console.log('Connected to signaling server');
-                connectionStatus.style.display = 'flex';
+            try {
+                const call = peer.call(hostId, myStream);
                 
-                if (isHost) {
-                    sendSignal('create', { 
-                        room: currentRoom,
-                        user: userId,
-                        name: userName
-                    });
-                }
-            };
-            
-            ws.onmessage = async (event) => {
-                try {
-                    const data = JSON.parse(event.data);
-                    console.log('Signal received:', data.type);
-                    
-                    switch(data.type) {
-                        case 'room_created':
-                            showNotification('Комната создана!');
-                            break;
-                            
-                        case 'user_joined':
-                            if (isHost && data.user !== userId) {
-                                showNotification(`Участник ${data.name} присоединился`);
-                                addParticipant(data.user, data.name, true, true);
-                                await createOffer(data.user);
-                            }
-                            break;
-                            
-                        case 'user_left':
-                            removeParticipant(data.user);
-                            connections.delete(data.user);
-                            showNotification(`Участник ${data.name} покинул звонок`);
-                            break;
-                            
-                        case 'offer':
-                            await handleOffer(data.from, data.offer);
-                            break;
-                            
-                        case 'answer':
-                            await handleAnswer(data.from, data.answer);
-                            break;
-                            
-                        case 'ice_candidate':
-                            await handleIceCandidate(data.from, data.candidate);
-                            break;
+                call.on('stream', (remoteStream) => {
+                    console.log('Подключились к ведущему');
+                    addVideoStream(hostId, remoteStream, 'Ведущий');
+                    addParticipant(hostId, 'Ведущий', true, true);
+                    showNotification('Успешно подключились к комнате!');
+                });
+                
+                call.on('close', () => {
+                    console.log('Соединение с ведущим разорвано');
+                    showNotification('Ведущий отключился');
+                    removeParticipant(hostId);
+                });
+                
+                call.on('error', (err) => {
+                    console.error('Ошибка при подключении к хосту:', err);
+                    if (err.type === 'peer-unavailable') {
+                        showNotification('Ведущий не найден');
+                        setTimeout(() => leaveCall(), 2000);
                     }
-                } catch (err) {
-                    console.error('Error processing signal:', err);
-                }
-            };
-            
-            ws.onerror = (error) => {
-                console.error('WebSocket error:', error);
-                showNotification('Ошибка подключения к серверу');
-            };
-            
-            ws.onclose = () => {
-                console.log('WebSocket disconnected');
-                connectionStatus.style.display = 'none';
-                showNotification('Потеряно соединение с сервером');
-            };
-        }
-
-        function sendSignal(type, data) {
-            if (ws && ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({
-                    type: type,
-                    room: currentRoom,
-                    user: userId,
-                    name: userName,
-                    ...data
-                }));
-            }
-        }
-
-        async function createOffer(toUser) {
-            try {
-                const peerConnection = new RTCPeerConnection({
-                    iceServers: [
-                        { urls: 'stun:stun.l.google.com:19302' },
-                        { urls: 'stun:stun1.l.google.com:19302' },
-                        { urls: 'stun:stun2.l.google.com:19302' },
-                        { urls: 'stun:stun3.l.google.com:19302' },
-                        { urls: 'stun:stun4.l.google.com:19302' }
-                    ]
                 });
-
-                connections.set(toUser, peerConnection);
-
-                myStream.getTracks().forEach(track => {
-                    peerConnection.addTrack(track, myStream);
-                });
-
-                peerConnection.ontrack = (event) => {
-                    console.log('Received remote track from:', toUser);
-                    const remoteStream = event.streams[0];
-                    addVideoStream(toUser, remoteStream, `Участник`);
-                };
-
-                peerConnection.onicecandidate = (event) => {
-                    if (event.candidate) {
-                        sendSignal('ice_candidate', {
-                            to: toUser,
-                            candidate: event.candidate
-                        });
-                    }
-                };
-
-                peerConnection.oniceconnectionstatechange = () => {
-                    console.log('ICE connection state:', peerConnection.iceConnectionState);
-                    if (peerConnection.iceConnectionState === 'disconnected' ||
-                        peerConnection.iceConnectionState === 'failed') {
-                        removeParticipant(toUser);
-                        connections.delete(toUser);
-                    }
-                };
-
-                const offer = await peerConnection.createOffer();
-                await peerConnection.setLocalDescription(offer);
-
-                sendSignal('offer', {
-                    to: toUser,
-                    offer: offer
-                });
-
+                
+                connections.set(hostId, call);
             } catch (err) {
-                console.error('Error creating offer:', err);
-            }
-        }
-
-        async function handleOffer(fromUser, offer) {
-            try {
-                const peerConnection = new RTCPeerConnection({
-                    iceServers: [
-                        { urls: 'stun:stun.l.google.com:19302' },
-                        { urls: 'stun:stun1.l.google.com:19302' },
-                        { urls: 'stun:stun2.l.google.com:19302' },
-                        { urls: 'stun:stun3.l.google.com:19302' },
-                        { urls: 'stun:stun4.l.google.com:19302' }
-                    ]
-                });
-
-                connections.set(fromUser, peerConnection);
-
-                myStream.getTracks().forEach(track => {
-                    peerConnection.addTrack(track, myStream);
-                });
-
-                peerConnection.ontrack = (event) => {
-                    console.log('Received remote track from:', fromUser);
-                    const remoteStream = event.streams[0];
-                    addVideoStream(fromUser, remoteStream, isHost ? `Участник` : 'Ведущий');
-                };
-
-                peerConnection.onicecandidate = (event) => {
-                    if (event.candidate) {
-                        sendSignal('ice_candidate', {
-                            to: fromUser,
-                            candidate: event.candidate
-                        });
-                    }
-                };
-
-                await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-                const answer = await peerConnection.createAnswer();
-                await peerConnection.setLocalDescription(answer);
-
-                sendSignal('answer', {
-                    to: fromUser,
-                    answer: answer
-                });
-
-            } catch (err) {
-                console.error('Error handling offer:', err);
-            }
-        }
-
-        async function handleAnswer(fromUser, answer) {
-            try {
-                const peerConnection = connections.get(fromUser);
-                if (peerConnection) {
-                    await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-                }
-            } catch (err) {
-                console.error('Error handling answer:', err);
-            }
-        }
-
-        async function handleIceCandidate(fromUser, candidate) {
-            try {
-                const peerConnection = connections.get(fromUser);
-                if (peerConnection && candidate) {
-                    await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-                }
-            } catch (err) {
-                console.error('Error handling ICE candidate:', err);
+                console.error('Ошибка при вызове хоста:', err);
+                showNotification('Не удалось подключиться к комнате');
             }
         }
 
@@ -1017,7 +1096,7 @@
                         <i class="fas fa-user"></i>
                     </div>
                     <div>
-                        <strong style="font-size: 0.9rem;">${data.name} ${id === userId ? '(Вы)' : ''}</strong>
+                        <strong style="font-size: 0.9rem;">${data.name} ${id === peerId ? '(Вы)' : ''}</strong>
                         <div style="font-size: 0.8rem; color: var(--accent);">
                             ${data.hasAudio ? '<i class="fas fa-microphone"></i>' : '<i class="fas fa-microphone-slash"></i>'}
                             ${data.hasVideo ? '<i class="fas fa-video"></i>' : '<i class="fas fa-video-slash"></i>'}
@@ -1030,31 +1109,49 @@
         }
 
         async function toggleMic() {
-            if (localAudioTrack) {
-                localAudioTrack.enabled = !localAudioTrack.enabled;
+            if (!myStream) return;
+            
+            const audioTrack = myStream.getAudioTracks()[0];
+            if (audioTrack) {
+                audioTrack.enabled = !audioTrack.enabled;
                 const micBtn = document.getElementById('micBtn');
                 
-                if (localAudioTrack.enabled) {
+                if (audioTrack.enabled) {
                     micBtn.classList.remove('active');
                     micBtn.innerHTML = '<i class="fas fa-microphone"></i>';
                 } else {
                     micBtn.classList.add('active');
                     micBtn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
                 }
+                
+                const participant = participants.get(peerId);
+                if (participant) {
+                    participant.hasAudio = audioTrack.enabled;
+                    updateParticipantsList();
+                }
             }
         }
 
         async function toggleVideo() {
-            if (localVideoTrack) {
-                localVideoTrack.enabled = !localVideoTrack.enabled;
+            if (!myStream) return;
+            
+            const videoTrack = myStream.getVideoTracks()[0];
+            if (videoTrack) {
+                videoTrack.enabled = !videoTrack.enabled;
                 const videoBtn = document.getElementById('videoBtn');
                 
-                if (localVideoTrack.enabled) {
+                if (videoTrack.enabled) {
                     videoBtn.classList.remove('active');
                     videoBtn.innerHTML = '<i class="fas fa-video"></i>';
                 } else {
                     videoBtn.classList.add('active');
                     videoBtn.innerHTML = '<i class="fas fa-video-slash"></i>';
+                }
+                
+                const participant = participants.get(peerId);
+                if (participant) {
+                    participant.hasVideo = videoTrack.enabled;
+                    updateParticipantsList();
                 }
             }
         }
@@ -1083,12 +1180,15 @@
                 
                 document.getElementById('stopScreenBtn').style.display = 'block';
                 addVideoStream('screen', myScreenStream, 'Демонстрация экрана', true);
+                showNotification('Демонстрация экрана начата');
                 
                 const screenTrack = myScreenStream.getVideoTracks()[0];
-                connections.forEach((peerConnection, userId) => {
-                    const sender = peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
-                    if (sender && screenTrack) {
-                        sender.replaceTrack(screenTrack);
+                connections.forEach((call) => {
+                    if (call.peerConnection) {
+                        const sender = call.peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
+                        if (sender && screenTrack) {
+                            sender.replaceTrack(screenTrack);
+                        }
                     }
                 });
                 
@@ -1113,14 +1213,19 @@
             isScreenSharing = false;
             document.getElementById('stopScreenBtn').style.display = 'none';
             
-            if (localVideoTrack) {
-                connections.forEach((peerConnection, userId) => {
-                    const sender = peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
-                    if (sender && localVideoTrack) {
-                        sender.replaceTrack(localVideoTrack);
+            if (myStream) {
+                const videoTrack = myStream.getVideoTracks()[0];
+                connections.forEach((call) => {
+                    if (call.peerConnection && videoTrack) {
+                        const sender = call.peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
+                        if (sender) {
+                            sender.replaceTrack(videoTrack);
+                        }
                     }
                 });
             }
+            
+            showNotification('Демонстрация экрана остановлена');
         }
 
         function leaveCall() {
@@ -1132,13 +1237,12 @@
                 myScreenStream.getTracks().forEach(track => track.stop());
             }
             
-            connections.forEach((peerConnection, userId) => {
-                peerConnection.close();
+            connections.forEach((call) => {
+                if (call.close) call.close();
             });
             
-            if (ws) {
-                sendSignal('leave', {});
-                ws.close();
+            if (peer) {
+                peer.destroy();
             }
             
             connections.clear();
@@ -1158,6 +1262,7 @@
             connectionStatus.style.display = 'none';
             
             currentRoom = null;
+            peerId = null;
             isHost = false;
             
             window.location.hash = '';
